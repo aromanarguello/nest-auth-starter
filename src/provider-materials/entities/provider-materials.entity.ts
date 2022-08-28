@@ -1,3 +1,4 @@
+import { MaterialCertification } from '../../material/material-certification/entities/material-certification.entity';
 import { MaterialFinish } from 'src/material/material-finish/entities/material-finish.entity';
 import { Material } from 'src/material/entities/material.entity';
 import { Provider } from 'src/provider/entities/provider.entity';
@@ -61,12 +62,22 @@ export class ProviderMaterials extends BaseEntity {
   @Column({ name: 'material_usage_id' })
   materialUsageId: string;
 
-  @Column({ nullable: false })
+  @ManyToOne(() => MaterialCertification)
+  @JoinColumn({ name: 'material_certification_id' })
+  materialCertification: MaterialCertification;
+
+  @Column({ name: 'material_certification_id' })
+  materialCertificationId: string;
+
+  @Column({ nullable: true })
   sku: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   price: number;
 
-  @Column({ nullable: false })
-  quantity: number;
+  @Column({ name: 'quantity_available' })
+  quantityAvailable: number;
+
+  @Column({ name: 'meta_title', nullable: true })
+  metaTitle?: string;
 }

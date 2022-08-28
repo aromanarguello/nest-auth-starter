@@ -1,6 +1,14 @@
+import { Material } from 'src/material/entities/material.entity';
 import { Project } from 'src/project/entities/project.entity';
 import BaseEntity from 'src/utils/base.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export enum UserRoleEnum {
   USER = 'USER',
@@ -26,6 +34,10 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Project, (project) => project.user, { cascade: true })
   projects: Project[];
+
+  @ManyToMany(() => Material)
+  @JoinTable({ name: 'user_material_favorites' })
+  materialFavorites: Material[];
 
   @Column({ name: 'refresh_token', select: false, nullable: true })
   refreshToken?: string;

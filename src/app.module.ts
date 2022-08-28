@@ -18,6 +18,8 @@ import { MaterialUsageModule } from './material/material-usage/material-usage.mo
 import { MaterialFinishModule } from './material/material-finish/material-finish.module';
 import { ProviderMaterialsModule } from './provider-materials/provider-materials.module';
 import { ProviderModule } from './provider/provider.module';
+import { MaterialCertificationModule } from './material/material-certification/material-certification.module';
+import { UserFavoritesModule } from './user/user-favorites/user-favorites.module';
 
 @Module({
   imports: [
@@ -54,6 +56,8 @@ import { ProviderModule } from './provider/provider.module';
     MaterialFinishModule,
     ProviderMaterialsModule,
     ProviderModule,
+    MaterialCertificationModule,
+    UserFavoritesModule,
   ],
   controllers: [],
   providers: [
