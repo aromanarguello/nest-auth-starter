@@ -38,6 +38,7 @@ export class ProjectController {
 
   @Delete('/:id')
   @UseGuards(AtGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
   deleteProject(@Param('id') id: string) {
     return this.projectService.delete(id);
   }

@@ -26,10 +26,6 @@ export class ProjectService {
   }
 
   delete(id: string) {
-    console.log(
-      '🚀 ~ file: project.service.ts ~ line 29 ~ ProjectService ~ delete ~ id',
-      id,
-    );
     try {
       return this.projectRepository.delete({ id });
     } catch (error) {
