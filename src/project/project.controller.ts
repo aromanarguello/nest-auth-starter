@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -34,10 +36,28 @@ export class ProjectController {
     return this.projectService.findAllByUserId(userId);
   }
 
+  @Delete('/:id')
+  @UseGuards(AtGuard)
+  deleteProject(@Param('id') id: string) {
+    return this.projectService.delete(id);
+  }
+
   @Get('/:id')
   @UseGuards(AtGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async findOne(@Param('id') id: string) {
     return this.projectService.findById(id);
+  }
+
+  @Patch('/:projectId')
+  @UseGuards(AtGuard)
+  async addProviderMaterial(
+    @Param('projectId') projectId: string,
+    @Body() providerMaterialId: string,
+  ) {
+    return this.projectService.addProviderMaterial(
+      projectId,
+      providerMaterialId,
+    );
   }
 }

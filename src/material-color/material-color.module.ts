@@ -4,6 +4,6 @@ import { MaterialColorService } from './material-color.service';
 
 @Module({
   controllers: [MaterialColorController],
-  providers: [MaterialColorService]
+  providers: [MaterialColorService],
 })
 export class MaterialColorModule {}
