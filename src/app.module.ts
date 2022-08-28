@@ -11,6 +11,9 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
 import { ProjectModule } from './project/project.module';
+import { MaterialModule } from './material/material.module';
+import { MaterialColorModule } from './material-color/material-color.module';
+import { MaterialTextureModule } from './material-texture/material-texture.module';
 
 @Module({
   imports: [
@@ -32,6 +35,9 @@ import { ProjectModule } from './project/project.module';
     UserModule,
     AuthModule,
     ProjectModule,
+    MaterialModule,
+    MaterialColorModule,
+    MaterialTextureModule,
   ],
   controllers: [],
   providers: [
