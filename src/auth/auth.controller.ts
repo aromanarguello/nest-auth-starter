@@ -1,6 +1,22 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { UserCredentialsDto } from 'src/user/dto/user-credentials.dto';
-import { User } from 'src/user/user.entity';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request, Response } from 'express';
+import { CurrentUserId, Public } from 'src/common/decorators';
+import { AtGuard, RtGuard } from 'src/common/guards';
+import {
+  CreateUserDto,
+  UserCredentialsDto,
+} from 'src/user/dto/user-credentials.dto';
+
 import { AuthService } from './auth.service';
 import { UserWithTokens } from './types';
 
@@ -8,22 +24,43 @@ import { UserWithTokens } from './types';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('/signup')
-  signUp(
-    @Body() userCredentialsDto: UserCredentialsDto,
-  ): Promise<UserWithTokens> {
-    return this.authService.singUp(userCredentialsDto);
+  @Public()
+  @Post('signup')
+  @HttpCode(HttpStatus.CREATED)
+  async signUp(
+    @Body() userCredentialsDto: CreateUserDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { user, tokens } = await this.authService.singUp(userCredentialsDto);
+    res.cookie('refresh', 'Bearer ' + tokens.refresh_token);
+    return { user, accessToken: tokens.access_token };
   }
 
-  @Post('/signin')
-  signIn(
+  @Public()
+  @Post('signin')
+  @HttpCode(HttpStatus.OK)
+  async signIn(
+    @Res({ passthrough: true }) res: Response,
     @Body() userCredentialsDto: UserCredentialsDto,
-  ): Promise<UserWithTokens> {
-    return this.authService.signIn(userCredentialsDto);
+  ) {
+    const { user, tokens } = await this.authService.signIn(userCredentialsDto);
+    res.cookie('refresh', 'Bearer ' + tokens.refresh_token);
+    return { user, accessToken: tokens.access_token };
   }
 
-  @Post('/logout')
-  logOut() {
-    // return this.authService.logOut();
+  @UseGuards(AtGuard)
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  logOut(@CurrentUserId() userId: string) {
+    return this.authService.logOut(userId);
+  }
+
+  @Public()
+  @UseGuards(RtGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  refresh(@Req() req: Request, @Res() res: Response) {
+    // const userId = req.user['sub'];
+    // return this.authService.refreshTokens(userId);
   }
 }
