@@ -1,16 +1,5 @@
-import BaseEntity from 'src/utils/base.entity';
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import MaterialBaseEntity from 'src/utils/materialBase.entity';
+import { Entity } from 'typeorm';
 
 @Entity()
-export class MaterialColor extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ unique: true })
-  @Index()
-  name: string;
-
-  @Column({ nullable: true })
-  @Index()
-  description?: string;
-}
+export class MaterialColor extends MaterialBaseEntity {}

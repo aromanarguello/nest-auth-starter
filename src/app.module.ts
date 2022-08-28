@@ -14,6 +14,8 @@ import { ProjectModule } from './project/project.module';
 import { MaterialModule } from './material/material.module';
 import { MaterialColorModule } from './material-color/material-color.module';
 import { MaterialTextureModule } from './material-texture/material-texture.module';
+import { MaterialUsageModule } from './material-usage/material-usage.module';
+import { MaterialFinishModule } from './material-finish/material-finish.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { MaterialTextureModule } from './material-texture/material-texture.modul
     MaterialModule,
     MaterialColorModule,
     MaterialTextureModule,
+    MaterialUsageModule,
+    MaterialFinishModule,
   ],
   controllers: [],
   providers: [
