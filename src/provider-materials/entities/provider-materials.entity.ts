@@ -34,35 +34,41 @@ export class ProviderMaterials extends BaseEntity {
   @Column({ name: 'material_id' })
   materialId: string;
 
-  @ManyToOne(() => MaterialFinish, { nullable: false })
+  @ManyToOne(() => MaterialFinish, ({ providerMaterials }) => providerMaterials)
   @JoinColumn({ name: 'material_finish_id' })
   materialFinish: MaterialFinish;
 
   @Column({ name: 'material_finish_id' })
   materialFinishId: string;
 
-  @ManyToOne(() => MaterialColor, { nullable: false })
+  @ManyToOne(() => MaterialColor, ({ providerMaterials }) => providerMaterials)
   @JoinColumn({ name: 'material_color_id' })
   materialColor: MaterialColor;
 
   @Column({ name: 'material_color_id' })
   materialColorId: string;
 
-  @ManyToOne(() => MaterialTexture, { nullable: false })
+  @ManyToOne(
+    () => MaterialTexture,
+    ({ providerMaterials }) => providerMaterials,
+  )
   @JoinColumn({ name: 'material_texture_id' })
   materialTexture: MaterialTexture;
 
   @Column({ name: 'material_texture_id' })
   materialTextureId: string;
 
-  @ManyToOne(() => MaterialUsage, { nullable: false })
+  @ManyToOne(() => MaterialUsage, ({ providerMaterials }) => providerMaterials)
   @JoinColumn({ name: 'material_usage_id' })
   materialUsage: MaterialUsage;
 
   @Column({ name: 'material_usage_id' })
   materialUsageId: string;
 
-  @ManyToOne(() => MaterialCertification)
+  @ManyToOne(
+    () => MaterialCertification,
+    ({ providerMaterials }) => providerMaterials,
+  )
   @JoinColumn({ name: 'material_certification_id' })
   materialCertification: MaterialCertification;
 

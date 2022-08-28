@@ -16,7 +16,9 @@ export class UserFavoritesService {
   async create(userId: string, materialId: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['materialFavorites'],
+      relations: {
+        materialFavorites: true,
+      },
     });
     if (!user) {
       throw new Error('User not found');
