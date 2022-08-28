@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
@@ -16,6 +16,8 @@ import { MaterialColorModule } from './material-color/material-color.module';
 import { MaterialTextureModule } from './material-texture/material-texture.module';
 import { MaterialUsageModule } from './material-usage/material-usage.module';
 import { MaterialFinishModule } from './material-finish/material-finish.module';
+import { ProviderMaterialsModule } from './provider-materials/provider-materials.module';
+import { ProviderModule } from './provider/provider.module';
 
 @Module({
   imports: [
@@ -33,7 +35,15 @@ import { MaterialFinishModule } from './material-finish/material-finish.module';
       database: 'postgres',
       autoLoadEntities: true,
       synchronize: true,
-    }),
+      logging: true,
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      migrations: ['dist/migrations/**/*{.ts,.js}'],
+      cli: {
+        entitiesDir: 'src',
+        migrationsDir: 'src/database/migrations',
+        subscribersDir: 'subscriber',
+      },
+    } as TypeOrmModuleOptions),
     UserModule,
     AuthModule,
     ProjectModule,
@@ -42,6 +52,8 @@ import { MaterialFinishModule } from './material-finish/material-finish.module';
     MaterialTextureModule,
     MaterialUsageModule,
     MaterialFinishModule,
+    ProviderMaterialsModule,
+    ProviderModule,
   ],
   controllers: [],
   providers: [

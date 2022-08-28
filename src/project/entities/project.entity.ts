@@ -1,3 +1,4 @@
+import { ProviderMaterials } from './../../provider-materials/entities/provider-materials.entity';
 import BaseEntity from 'src/utils/base.entity';
 import {
   Entity,
@@ -5,6 +6,8 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 
@@ -37,4 +40,8 @@ export class Project extends BaseEntity {
 
   @Column({ name: 'user_id' })
   userId: string;
+
+  @ManyToMany(() => ProviderMaterials)
+  @JoinTable({ name: 'project_provider_materials' })
+  providerMaterials: ProviderMaterials[];
 }
