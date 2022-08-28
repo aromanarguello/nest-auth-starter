@@ -1,5 +1,6 @@
+import { Project } from 'src/project/entities/project.entity';
 import BaseEntity from 'src/utils/base.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum UserRoleEnum {
   USER = 'USER',
@@ -22,6 +23,9 @@ export class User extends BaseEntity {
 
   @Column({ type: 'enum', enum: UserRoleEnum })
   role: UserRoleEnum;
+
+  @OneToMany(() => Project, (project) => project.user, { cascade: true })
+  projects: Project[];
 
   @Column({ name: 'refresh_token', select: false, nullable: true })
   refreshToken?: string;

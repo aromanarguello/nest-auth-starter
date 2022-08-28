@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { IsExist } from 'src/utils/validators/is-exists.validator';
 
 import { UserController } from './user.controller';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
 @Module({

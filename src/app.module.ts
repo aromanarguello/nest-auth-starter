@@ -10,6 +10,7 @@ import { configValidationSchema } from './validation/schema.validation';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
+import { ProjectModule } from './project/project.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AtGuard } from './common/guards';
     }),
     UserModule,
     AuthModule,
+    ProjectModule,
   ],
   controllers: [],
   providers: [

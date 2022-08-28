@@ -5,7 +5,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { UserRoleEnum } from '../user.entity';
+import { UserRoleEnum } from '../entities/user.entity';
 
 export class UserCredentialsDto {
   @IsEmail()
