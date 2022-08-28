@@ -1,4 +1,4 @@
-import { MaterialFinish } from 'src/material-finish/entities/material-finish.entity';
+import { MaterialFinish } from 'src/material/material-finish/entities/material-finish.entity';
 import { Material } from 'src/material/entities/material.entity';
 import { Provider } from 'src/provider/entities/provider.entity';
 import BaseEntity from 'src/utils/base.entity';
@@ -10,9 +10,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { MaterialColor } from './../../material-color/entities/material-color.entity';
-import { MaterialTexture } from './../../material-texture/entities/material-texture.entity';
-import { MaterialUsage } from './../../material-usage/entities/material-usage.entity';
+import { MaterialColor } from '../../material/material-color/entities/material-color.entity';
+import { MaterialTexture } from '../../material/material-texture/entities/material-texture.entity';
+import { MaterialUsage } from '../../material/material-usage/entities/material-usage.entity';
 
 @Entity()
 export class ProviderMaterials extends BaseEntity {

@@ -12,10 +12,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
 import { ProjectModule } from './project/project.module';
 import { MaterialModule } from './material/material.module';
-import { MaterialColorModule } from './material-color/material-color.module';
-import { MaterialTextureModule } from './material-texture/material-texture.module';
-import { MaterialUsageModule } from './material-usage/material-usage.module';
-import { MaterialFinishModule } from './material-finish/material-finish.module';
+import { MaterialColorModule } from './material/material-color/material-color.module';
+import { MaterialTextureModule } from './material/material-texture/material-texture.module';
+import { MaterialUsageModule } from './material/material-usage/material-usage.module';
+import { MaterialFinishModule } from './material/material-finish/material-finish.module';
 import { ProviderMaterialsModule } from './provider-materials/provider-materials.module';
 import { ProviderModule } from './provider/provider.module';
 
