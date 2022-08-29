@@ -22,6 +22,7 @@ import { MaterialCertificationModule } from './material/material-certification/m
 import { UserFavoritesModule } from './user/user-favorites/user-favorites.module';
 import { CartModule } from './cart/cart.module';
 import { CartItemsModule } from './cart-items/cart-items.module';
+import { UserProfileModule } from './user/user-profile/user-profile.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { CartItemsModule } from './cart-items/cart-items.module';
     UserFavoritesModule,
     CartModule,
     CartItemsModule,
+    UserProfileModule,
   ],
   controllers: [],
   providers: [

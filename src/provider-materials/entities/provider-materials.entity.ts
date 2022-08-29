@@ -1,4 +1,4 @@
-import { MaterialCertification } from '../../material/material-certification/entities/material-certification.entity';
+import { MaterialCertification } from 'src/material/material-certification/entities/material-certification.entity';
 import { MaterialFinish } from 'src/material/material-finish/entities/material-finish.entity';
 import { Material } from 'src/material/entities/material.entity';
 import { Provider } from 'src/provider/entities/provider.entity';
@@ -12,9 +12,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { MaterialColor } from '../../material/material-color/entities/material-color.entity';
-import { MaterialTexture } from '../../material/material-texture/entities/material-texture.entity';
-import { MaterialUsage } from '../../material/material-usage/entities/material-usage.entity';
+import { MaterialColor } from 'src/material/material-color/entities/material-color.entity';
+import { MaterialTexture } from 'src/material/material-texture/entities/material-texture.entity';
+import { MaterialUsage } from 'src/material/material-usage/entities/material-usage.entity';
 import { CartItem } from 'src/cart-items/entities/cart-item.entity';
 
 @Entity()
@@ -64,7 +64,7 @@ export class ProviderMaterials extends BaseEntity {
   quantityAvailable: number;
 
   @Column({ name: 'meta_title', nullable: true })
-  metaTitle?: string;
+  metaTitle: string;
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.providerMaterial)
   cartItems: CartItem[];

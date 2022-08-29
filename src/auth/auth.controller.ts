@@ -18,7 +18,6 @@ import {
 } from 'src/user/dto/user-credentials.dto';
 
 import { AuthService } from './auth.service';
-import { UserWithTokens } from './types';
 
 @Controller('auth')
 export class AuthController {

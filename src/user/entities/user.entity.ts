@@ -1,5 +1,6 @@
 import { Material } from 'src/material/entities/material.entity';
 import { Project } from 'src/project/entities/project.entity';
+import { UserProfile } from 'src/user/user-profile/entities/user-profile.entity';
 import BaseEntity from 'src/utils/base.entity';
 import {
   Column,
@@ -7,6 +8,7 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -38,6 +40,12 @@ export class User extends BaseEntity {
   @ManyToMany(() => Material)
   @JoinTable({ name: 'user_material_favorites' })
   materialFavorites: Material[];
+
+  @OneToOne(() => UserProfile, ({ user }) => user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  userProfile: UserProfile;
 
   @Column({ name: 'refresh_token', select: false, nullable: true })
   refreshToken?: string;
