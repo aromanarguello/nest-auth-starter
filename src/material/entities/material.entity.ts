@@ -14,6 +14,12 @@ export class Material extends BaseEntity {
   @Column()
   name: string;
 
+  @Column()
+  image: string;
+
+  @Column({ name: 'meta_title' })
+  metaTitle: string;
+
   @DeleteDateColumn({ name: 'deleted_on' })
   deletedOn: Date;
 }

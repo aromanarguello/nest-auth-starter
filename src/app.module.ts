@@ -20,6 +20,8 @@ import { ProviderMaterialsModule } from './provider-materials/provider-materials
 import { ProviderModule } from './provider/provider.module';
 import { MaterialCertificationModule } from './material/material-certification/material-certification.module';
 import { UserFavoritesModule } from './user/user-favorites/user-favorites.module';
+import { CartModule } from './cart/cart.module';
+import { CartItemsModule } from './cart-items/cart-items.module';
 
 @Module({
   imports: [
@@ -58,6 +60,8 @@ import { UserFavoritesModule } from './user/user-favorites/user-favorites.module
     ProviderModule,
     MaterialCertificationModule,
     UserFavoritesModule,
+    CartModule,
+    CartItemsModule,
   ],
   controllers: [],
   providers: [

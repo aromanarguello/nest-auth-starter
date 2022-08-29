@@ -8,12 +8,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { MaterialColor } from '../../material/material-color/entities/material-color.entity';
 import { MaterialTexture } from '../../material/material-texture/entities/material-texture.entity';
 import { MaterialUsage } from '../../material/material-usage/entities/material-usage.entity';
+import { CartItem } from 'src/cart-items/entities/cart-item.entity';
 
 @Entity()
 export class ProviderMaterials extends BaseEntity {
@@ -34,46 +36,23 @@ export class ProviderMaterials extends BaseEntity {
   @Column({ name: 'material_id' })
   materialId: string;
 
-  @ManyToOne(() => MaterialFinish, ({ providerMaterials }) => providerMaterials)
-  @JoinColumn({ name: 'material_finish_id' })
-  materialFinish: MaterialFinish;
+  @OneToMany(() => MaterialFinish, ({ providerMaterial }) => providerMaterial)
+  materialFinishes: MaterialFinish[];
 
-  @Column({ name: 'material_finish_id' })
-  materialFinishId: string;
+  @OneToMany(() => MaterialColor, ({ providerMaterial }) => providerMaterial)
+  materialColors: MaterialColor[];
 
-  @ManyToOne(() => MaterialColor, ({ providerMaterials }) => providerMaterials)
-  @JoinColumn({ name: 'material_color_id' })
-  materialColor: MaterialColor;
+  @OneToMany(() => MaterialTexture, ({ providerMaterial }) => providerMaterial)
+  materialTextures: MaterialTexture[];
 
-  @Column({ name: 'material_color_id' })
-  materialColorId: string;
+  @OneToMany(() => MaterialUsage, ({ providerMaterial }) => providerMaterial)
+  materialUsages: MaterialUsage[];
 
-  @ManyToOne(
-    () => MaterialTexture,
-    ({ providerMaterials }) => providerMaterials,
-  )
-  @JoinColumn({ name: 'material_texture_id' })
-  materialTexture: MaterialTexture;
-
-  @Column({ name: 'material_texture_id' })
-  materialTextureId: string;
-
-  @ManyToOne(() => MaterialUsage, ({ providerMaterials }) => providerMaterials)
-  @JoinColumn({ name: 'material_usage_id' })
-  materialUsage: MaterialUsage;
-
-  @Column({ name: 'material_usage_id' })
-  materialUsageId: string;
-
-  @ManyToOne(
+  @OneToMany(
     () => MaterialCertification,
-    ({ providerMaterials }) => providerMaterials,
+    ({ providerMaterial }) => providerMaterial,
   )
-  @JoinColumn({ name: 'material_certification_id' })
-  materialCertification: MaterialCertification;
-
-  @Column({ name: 'material_certification_id' })
-  materialCertificationId: string;
+  materialCertifications: MaterialCertification[];
 
   @Column({ nullable: true })
   sku: string;
@@ -86,4 +65,7 @@ export class ProviderMaterials extends BaseEntity {
 
   @Column({ name: 'meta_title', nullable: true })
   metaTitle?: string;
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.providerMaterial)
+  cartItems: CartItem[];
 }

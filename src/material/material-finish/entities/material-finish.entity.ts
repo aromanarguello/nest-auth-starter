@@ -1,9 +1,16 @@
 import { ProviderMaterials } from 'src/provider-materials/entities/provider-materials.entity';
 import MaterialBaseEntity from 'src/utils/materialBase.entity';
-import { Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class MaterialFinish extends MaterialBaseEntity {
-  @OneToMany(() => ProviderMaterials, ({ materialUsage }) => materialUsage)
-  providerMaterials: ProviderMaterials[];
+  @ManyToOne(
+    () => ProviderMaterials,
+    ({ materialFinishes }) => materialFinishes,
+    { onDelete: 'CASCADE' },
+  )
+  providerMaterial: ProviderMaterials;
+
+  @Column({ name: 'provider_material_id' })
+  providerMaterialId: string;
 }
