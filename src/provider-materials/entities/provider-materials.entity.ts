@@ -66,6 +66,6 @@ export class ProviderMaterials extends BaseEntity {
   @Column({ name: 'meta_title', nullable: true })
   metaTitle: string;
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.providerMaterial)
+  @OneToMany(() => CartItem, ({ providerMaterial }) => providerMaterial)
   cartItems: CartItem[];
 }

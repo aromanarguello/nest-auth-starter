@@ -1,28 +1,24 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+
+import { AuthModule } from './auth/auth.module';
+import { CartItemsModule } from './cart-items/cart-items.module';
+import { CartModule } from './cart/cart.module';
+import { AtGuard } from './common/guards';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
-import { TypeormConfigService } from './database/typeorm-config.service';
-import { UserModule } from './user/user.module';
-import { configValidationSchema } from './validation/schema.validation';
-import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
-import { AtGuard } from './common/guards';
-import { ProjectModule } from './project/project.module';
-import { MaterialModule } from './material/material.module';
+import { MaterialCertificationModule } from './material/material-certification/material-certification.module';
 import { MaterialColorModule } from './material/material-color/material-color.module';
+import { MaterialFinishModule } from './material/material-finish/material-finish.module';
 import { MaterialTextureModule } from './material/material-texture/material-texture.module';
 import { MaterialUsageModule } from './material/material-usage/material-usage.module';
-import { MaterialFinishModule } from './material/material-finish/material-finish.module';
+import { MaterialModule } from './material/material.module';
+import { ProjectModule } from './project/project.module';
 import { ProviderMaterialsModule } from './provider-materials/provider-materials.module';
 import { ProviderModule } from './provider/provider.module';
-import { MaterialCertificationModule } from './material/material-certification/material-certification.module';
-import { UserFavoritesModule } from './user/user-favorites/user-favorites.module';
-import { CartModule } from './cart/cart.module';
-import { CartItemsModule } from './cart-items/cart-items.module';
-import { UserProfileModule } from './user/user-profile/user-profile.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -60,10 +56,8 @@ import { UserProfileModule } from './user/user-profile/user-profile.module';
     ProviderMaterialsModule,
     ProviderModule,
     MaterialCertificationModule,
-    UserFavoritesModule,
     CartModule,
     CartItemsModule,
-    UserProfileModule,
   ],
   controllers: [],
   providers: [

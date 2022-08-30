@@ -35,15 +35,23 @@ export class AuthController {
     return { user, accessToken: tokens.access_token };
   }
 
-  @Public()
+  // @Public()
+  @UseGuards(AtGuard)
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   async signIn(
+    @Req() request: Request,
     @Res({ passthrough: true }) res: Response,
-    @Body() userCredentialsDto: UserCredentialsDto,
+    @Body() req: UserCredentialsDto,
   ) {
-    const { user, tokens } = await this.authService.signIn(userCredentialsDto);
-    res.cookie('refresh', 'Bearer ' + tokens.refresh_token);
+    const { user, tokens } = await this.authService.signIn(req);
+
+    res.cookie('jwt', 'Bearer ' + tokens.access_token, {
+      secure: true,
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 3,
+    });
+
     return { user, accessToken: tokens.access_token };
   }
 

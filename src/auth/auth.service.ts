@@ -35,12 +35,14 @@ export class AuthService {
   }: UserCredentialsDto): Promise<UserWithTokens> {
     const user = await this.userservice.findOne({
       where: { email },
-      select: ['id', 'password'],
+      select: ['id', 'password', 'email'],
     });
     const isValid = await compare(password, user.password);
 
     const tokens = await this.getTokens(user.id);
     await this.updateRtHash(user.id, tokens.refresh_token);
+
+    delete user.password;
 
     if (user && isValid) {
       return { user, tokens };
@@ -72,7 +74,7 @@ export class AuthService {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(
         { sub: userId },
-        { expiresIn: 60 * 15, secret: process.env.ACCESS_TOKEN_SECRET },
+        { expiresIn: 15, secret: process.env.ACCESS_TOKEN_SECRET },
       ),
       this.jwtService.signAsync(
         { sub: userId },

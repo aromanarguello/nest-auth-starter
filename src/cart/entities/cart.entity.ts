@@ -9,6 +9,11 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+export enum CartStatus {
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+}
+
 @Entity()
 export class Cart extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -23,4 +28,10 @@ export class Cart extends BaseEntity {
 
   @OneToOne(() => CartItem, ({ cart }) => cart)
   cartItems: CartItem[];
+
+  @Column({ name: 'total_price', type: 'money' })
+  totalPrice: number;
+
+  @Column({ type: 'enum', enum: CartStatus, default: CartStatus.OPEN })
+  status: CartStatus;
 }

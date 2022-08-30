@@ -8,8 +8,9 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AtStrategy } from 'src/auth/strategies';
+
 import { CurrentUserId } from 'src/common/decorators';
+import { AtGuard } from 'src/common/guards';
 import { CreateUserProfile } from './dtos/create-user-profile.dto';
 import { UserProfileService } from './user-profile.service';
 
@@ -19,7 +20,7 @@ export class UserProfileController {
 
   @Post()
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AtStrategy)
+  @UseGuards(AtGuard)
   create(@Body() body: CreateUserProfile, @CurrentUserId() userId: string) {
     const profile = { ...body, userId };
     return this.profileService.create(profile);
@@ -27,14 +28,14 @@ export class UserProfileController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AtStrategy)
+  @UseGuards(AtGuard)
   find(@CurrentUserId() userId: string) {
     return this.profileService.findByUserId(userId);
   }
 
   @Patch()
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AtStrategy)
+  @UseGuards(AtGuard)
   update(@Body() body: CreateUserProfile, @CurrentUserId() userId: string) {
     return this.profileService.update(userId, body);
   }
