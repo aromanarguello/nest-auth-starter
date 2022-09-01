@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
@@ -6,7 +7,6 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CartItemsModule } from './cart-items/cart-items.module';
 import { CartModule } from './cart/cart.module';
-import { AtGuard } from './common/guards';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { MaterialCertificationModule } from './material/material-certification/material-certification.module';
@@ -35,7 +35,7 @@ import { UserModule } from './user/user.module';
       password: 'postgres',
       database: 'postgres',
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
       logging: true,
       entities: ['dist/**/*.entity{.ts,.js}'],
       migrations: ['dist/migrations/**/*{.ts,.js}'],
@@ -63,7 +63,7 @@ import { UserModule } from './user/user.module';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: AtGuard,
+      useClass: JwtAuthGuard,
     },
   ],
 })

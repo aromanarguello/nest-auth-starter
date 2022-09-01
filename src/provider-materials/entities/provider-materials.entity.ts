@@ -36,23 +36,53 @@ export class ProviderMaterials extends BaseEntity {
   @Column({ name: 'material_id' })
   materialId: string;
 
-  @OneToMany(() => MaterialFinish, ({ providerMaterial }) => providerMaterial)
-  materialFinishes: MaterialFinish[];
-
-  @OneToMany(() => MaterialColor, ({ providerMaterial }) => providerMaterial)
-  materialColors: MaterialColor[];
-
-  @OneToMany(() => MaterialTexture, ({ providerMaterial }) => providerMaterial)
-  materialTextures: MaterialTexture[];
-
-  @OneToMany(() => MaterialUsage, ({ providerMaterial }) => providerMaterial)
-  materialUsages: MaterialUsage[];
-
-  @OneToMany(
-    () => MaterialCertification,
-    ({ providerMaterial }) => providerMaterial,
+  @ManyToOne(
+    () => MaterialFinish,
+    ({ providerMaterials }) => providerMaterials,
+    {
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
   )
-  materialCertifications: MaterialCertification[];
+  @JoinColumn({ name: 'material_finish_id' })
+  materialFinish: MaterialFinish;
+
+  @Column({ name: 'material_finish_id' })
+  materialFinishId: string;
+
+  @ManyToOne(() => MaterialColor, ({ providerMaterials }) => providerMaterials)
+  @JoinColumn({ name: 'material_color_id' })
+  materialColor: MaterialColor;
+
+  @Column({ name: 'material_color_id' })
+  materialColorId: string;
+
+  @ManyToOne(
+    () => MaterialTexture,
+    ({ providerMaterials }) => providerMaterials,
+  )
+  @JoinColumn({ name: 'material_texture_id' })
+  materialTextures: MaterialTexture;
+
+  @Column({ name: 'material_texture_id' })
+  materialTextureId: string;
+
+  @ManyToOne(() => MaterialUsage, ({ providerMaterials }) => providerMaterials)
+  @JoinColumn({ name: 'material_usage_id' })
+  materialUsage: MaterialUsage;
+
+  @Column({ name: 'material_usage_id' })
+  materialUsageId: string;
+
+  @ManyToOne(
+    () => MaterialCertification,
+    ({ providerMaterials }) => providerMaterials,
+  )
+  @JoinColumn({ name: 'material_certification_id' })
+  materialCertification: MaterialCertification;
+
+  @Column({ name: 'material_certification_id' })
+  materialCertificationId: string;
 
   @Column({ nullable: true })
   sku: string;

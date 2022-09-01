@@ -4,6 +4,6 @@ export const CurrentUserId = createParamDecorator(
   (_, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
 
-    return request.user['sub'];
+    return request.user['userId'];
   },
 );

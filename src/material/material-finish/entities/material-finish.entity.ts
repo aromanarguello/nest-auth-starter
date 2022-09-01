@@ -4,13 +4,6 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class MaterialFinish extends MaterialBaseEntity {
-  @ManyToOne(
-    () => ProviderMaterials,
-    ({ materialFinishes }) => materialFinishes,
-    { onDelete: 'CASCADE' },
-  )
-  providerMaterial: ProviderMaterials;
-
-  @Column({ name: 'provider_material_id' })
-  providerMaterialId: string;
+  @OneToMany(() => ProviderMaterials, ({ materialFinish }) => materialFinish)
+  providerMaterials: ProviderMaterials[];
 }

@@ -6,11 +6,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 export class MaterialCertification extends MaterialBaseEntity {
   @OneToMany(
     () => ProviderMaterials,
-    ({ materialCertifications }) => materialCertifications,
+    ({ materialCertification }) => materialCertification,
     { onDelete: 'CASCADE' },
   )
-  providerMaterial: ProviderMaterials;
-
-  @Column({ name: 'provider_material_id' })
-  providerMaterialId: string;
+  providerMaterials: ProviderMaterials[];
 }

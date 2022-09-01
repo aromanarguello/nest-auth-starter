@@ -4,14 +4,12 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CurrentUserId, Public } from 'src/common/decorators';
-import { AtGuard, RtGuard } from 'src/common/guards';
 import {
   CreateUserDto,
   UserCredentialsDto,
@@ -35,18 +33,16 @@ export class AuthController {
     return { user, accessToken: tokens.access_token };
   }
 
-  // @Public()
-  @UseGuards(AtGuard)
+  @Public()
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   async signIn(
-    @Req() request: Request,
     @Res({ passthrough: true }) res: Response,
     @Body() req: UserCredentialsDto,
   ) {
     const { user, tokens } = await this.authService.signIn(req);
 
-    res.cookie('jwt', 'Bearer ' + tokens.access_token, {
+    res.cookie('auth-cookie', 'Bearer ' + tokens.access_token, {
       secure: true,
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 3,
@@ -55,19 +51,10 @@ export class AuthController {
     return { user, accessToken: tokens.access_token };
   }
 
-  @UseGuards(AtGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   logOut(@CurrentUserId() userId: string) {
     return this.authService.logOut(userId);
-  }
-
-  @Public()
-  @UseGuards(RtGuard)
-  @Post('refresh')
-  @HttpCode(HttpStatus.OK)
-  refresh(@Req() req: Request, @Res() res: Response) {
-    // const userId = req.user['sub'];
-    // return this.authService.refreshTokens(userId);
   }
 }

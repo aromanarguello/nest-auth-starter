@@ -4,11 +4,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
 export class MaterialUsage extends MaterialBaseEntity {
-  @OneToMany(() => ProviderMaterials, ({ materialUsages }) => materialUsages, {
+  @OneToMany(() => ProviderMaterials, ({ materialUsage }) => materialUsage, {
     onDelete: 'CASCADE',
   })
-  providerMaterial: ProviderMaterials;
-
-  @Column({ name: 'provider_material_id' })
-  providerMaterialId: string;
+  providerMaterials: ProviderMaterials[];
 }
