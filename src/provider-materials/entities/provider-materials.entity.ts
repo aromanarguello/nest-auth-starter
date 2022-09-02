@@ -44,45 +44,45 @@ export class ProviderMaterials extends BaseEntity {
       onDelete: 'CASCADE',
     },
   )
-  @JoinColumn({ name: 'material_finish_id' })
+  @JoinColumn({ name: 'finish' })
   materialFinish: MaterialFinish;
 
-  @Column({ name: 'material_finish_id' })
-  materialFinishId: string;
+  @Column({ name: 'finish' })
+  finish: string;
 
   @ManyToOne(() => MaterialColor, ({ providerMaterials }) => providerMaterials)
-  @JoinColumn({ name: 'material_color_id' })
+  @JoinColumn({ name: 'color' })
   materialColor: MaterialColor;
 
-  @Column({ name: 'material_color_id' })
-  materialColorId: string;
+  @Column({ name: 'color' })
+  color: string;
 
   @ManyToOne(
     () => MaterialTexture,
     ({ providerMaterials }) => providerMaterials,
   )
-  @JoinColumn({ name: 'material_texture_id' })
+  @JoinColumn({ name: 'texture' })
   materialTextures: MaterialTexture;
 
-  @Column({ name: 'material_texture_id' })
-  materialTextureId: string;
+  @Column({ name: 'texture' })
+  texture: string;
 
   @ManyToOne(() => MaterialUsage, ({ providerMaterials }) => providerMaterials)
-  @JoinColumn({ name: 'material_usage_id' })
+  @JoinColumn({ name: 'usage' })
   materialUsage: MaterialUsage;
 
-  @Column({ name: 'material_usage_id' })
-  materialUsageId: string;
+  @Column({ name: 'usage' })
+  usage: string;
 
   @ManyToOne(
     () => MaterialCertification,
     ({ providerMaterials }) => providerMaterials,
   )
-  @JoinColumn({ name: 'material_certification_id' })
+  @JoinColumn({ name: 'certification' })
   materialCertification: MaterialCertification;
 
-  @Column({ name: 'material_certification_id' })
-  materialCertificationId: string;
+  @Column({ name: 'certification' })
+  certification: string;
 
   @Column({ nullable: true })
   sku: string;
@@ -92,6 +92,9 @@ export class ProviderMaterials extends BaseEntity {
 
   @Column({ name: 'quantity_available' })
   quantityAvailable: number;
+
+  @Column({ name: 'image_url' })
+  imageUrl: string;
 
   @Column({ name: 'meta_title', nullable: true })
   metaTitle: string;

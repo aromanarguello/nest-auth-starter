@@ -1,19 +1,8 @@
-import {
-  BaseEntity as Base,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { DeleteDateColumn, Index, PrimaryColumn } from 'typeorm';
 import BaseEntity from './base.entity';
 
 class MaterialBaseEntity extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column()
+  @PrimaryColumn()
   @Index()
   name: string;
 

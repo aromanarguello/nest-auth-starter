@@ -35,7 +35,7 @@ export class User extends BaseEntity {
   @Column({ type: 'enum', enum: UserRoleEnum })
   role: UserRoleEnum;
 
-  @OneToMany(() => Project, (project) => project.user, { cascade: true })
+  @OneToMany(() => Project, (project) => project.user)
   projects: Project[];
 
   @ManyToMany(() => Material)
