@@ -28,7 +28,7 @@ export class UserProfileController {
   @Get()
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  find(@CurrentUserId() userId: string) {
+  async find(@CurrentUserId() userId: string) {
     return this.profileService.findByUserId(userId);
   }
 

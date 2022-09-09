@@ -39,7 +39,7 @@ export class UserService {
       .save();
   }
 
-  async findOne(options: FindOneOptions): Promise<User> {
+  async findOne(options: FindOneOptions<User>): Promise<User> {
     return this.userRepository.findOne(options);
   }
 

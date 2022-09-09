@@ -1,20 +1,9 @@
-import { Material } from 'src/material/entities/material.entity';
-import { Project } from 'src/project/entities/project.entity';
 import { UserProfile } from 'src/user/user-profile/entities/user-profile.entity';
 import BaseEntity from 'src/utils/base.entity';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum UserRoleEnum {
-  ARCHITECT = 'ARCHITECT',
-  PROVIDER = 'PROVIDER',
+  USER = 'USER',
   ADMIN = 'ADMIN',
 }
 
@@ -34,13 +23,6 @@ export class User extends BaseEntity {
 
   @Column({ type: 'enum', enum: UserRoleEnum })
   role: UserRoleEnum;
-
-  @OneToMany(() => Project, (project) => project.user)
-  projects: Project[];
-
-  @ManyToMany(() => Material)
-  @JoinTable({ name: 'user_material_favorites' })
-  materialFavorites: Material[];
 
   @OneToOne(() => UserProfile, ({ user }) => user, {
     cascade: true,

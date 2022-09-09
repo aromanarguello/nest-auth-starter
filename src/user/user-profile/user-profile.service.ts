@@ -15,8 +15,18 @@ export class UserProfileService {
     return this.userProfileRepository.save(profile);
   }
 
-  findByUserId(userId: string) {
-    return this.userProfileRepository.findOne({ where: { userId } });
+  async findByUserId(userId: string) {
+    const user = await this.userProfileRepository.findOne({
+      where: { userId },
+    });
+
+    const profile = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+
+      imageUrl: user.imageUrl,
+    };
+    return profile;
   }
 
   update(userId: string, profile: CreateUserProfile) {

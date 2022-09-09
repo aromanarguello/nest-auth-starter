@@ -1,21 +1,24 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { CurrentUserId, Public } from 'src/common/decorators';
+import { CurrentUser, CurrentUserId, Public } from 'src/common/decorators';
 import {
   CreateUserDto,
   UserCredentialsDto,
 } from 'src/user/dto/user-credentials.dto';
 
 import { AuthService } from './auth.service';
+import { RtGuard } from './guards/rt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -29,8 +32,17 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const { user, tokens } = await this.authService.singUp(userCredentialsDto);
-    res.cookie('refresh', 'Bearer ' + tokens.refresh_token);
-    return { user, accessToken: tokens.access_token };
+    res.cookie('refresh', 'Bearer ' + tokens.refresh_token, {
+      secure: true,
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 3,
+    });
+    res.cookie('access', 'Bearer ' + tokens.access_token, {
+      secure: true,
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 1,
+    });
+    return { user };
   }
 
   @Public()
@@ -42,13 +54,17 @@ export class AuthController {
   ) {
     const { user, tokens } = await this.authService.signIn(req);
 
-    res.cookie('auth-cookie', 'Bearer ' + tokens.access_token, {
+    res.cookie('refresh', 'Bearer ' + tokens.refresh_token, {
       secure: true,
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 3,
+      expires: new Date(Date.now() + 60 * 60 * 24 * 3),
+    });
+    res.cookie('access', 'Bearer ' + tokens.access_token, {
+      secure: true,
+      httpOnly: true,
     });
 
-    return { user, accessToken: tokens.access_token };
+    return { user };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -56,5 +72,33 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   logOut(@CurrentUserId() userId: string) {
     return this.authService.logOut(userId);
+  }
+
+  @Public()
+  @UseGuards(RtGuard)
+  @Get('refresh')
+  @HttpCode(HttpStatus.OK)
+  async refresh(
+    @Res({ passthrough: true }) res: Response,
+    @CurrentUserId() userId: string,
+    @CurrentUser() user: any,
+  ) {
+    const tokens = await this.authService.refreshTokens(
+      userId,
+      user.refreshToken,
+    );
+
+    res.cookie('refresh', 'Bearer ' + tokens.refresh_token, {
+      secure: true,
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 3 * 1000,
+    });
+    res.cookie('access', 'Bearer ' + tokens.access_token, {
+      secure: true,
+      httpOnly: true,
+      maxAge: 60 * 60 * 1 * 1000,
+    });
+
+    return { message: 'refreshed' };
   }
 }

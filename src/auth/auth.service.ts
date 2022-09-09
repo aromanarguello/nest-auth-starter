@@ -39,6 +39,7 @@ export class AuthService {
     delete user.password;
 
     const tokens = await this.getTokens(user.id);
+    await this.updateRtHash(user.id, tokens.refresh_token);
 
     return { user, tokens };
   }
@@ -48,13 +49,21 @@ export class AuthService {
   }
 
   async refreshTokens(userId: string, rt: string): Promise<Tokens> {
-    const user = await this.userservice.findOne({ where: { id: userId } });
+    const user = await this.userservice.findOne({
+      where: { id: userId },
+      select: ['id', 'refreshToken'],
+    });
 
     if (!user) throw new ForbiddenException('Invalid credentials');
 
-    const rtMatches = await compare(rt, user.refreshToken);
+    const rtMatches = rt === user.refreshToken;
 
-    if (!rtMatches) throw new ForbiddenException('Invalid credentials');
+    const validToken = await this.jwtService.verifyAsync(rt, {
+      secret: process.env.REFRESH_TOKEN_SECRET,
+    });
+
+    if (!rtMatches && !validToken)
+      throw new ForbiddenException('Invalid credentials');
 
     const tokens = await this.getTokens(user.id);
     await this.updateRtHash(user.id, tokens.refresh_token);
@@ -85,12 +94,12 @@ export class AuthService {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(
         { sub: userId },
-        { expiresIn: '3d', secret: process.env.ACCESS_TOKEN_SECRET },
+        { expiresIn: '10m', secret: process.env.ACCESS_TOKEN_SECRET },
       ),
       this.jwtService.signAsync(
         { sub: userId },
         {
-          expiresIn: 60 * 60 * 24 * 7,
+          expiresIn: '3d',
           secret: process.env.REFRESH_TOKEN_SECRET,
         },
       ),
